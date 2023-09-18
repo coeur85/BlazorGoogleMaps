@@ -10,7 +10,7 @@
         if (typeof fn !== "function") {
             throw new Error("function not found");
         }
-
+        console.log(fn);
         return fn;
     }
 
@@ -324,6 +324,8 @@
         }
     };
 
+   
+
     return {
         objectManager: {
             get mapObjects() { return mapObjects; },
@@ -343,7 +345,7 @@
 
                 mapObjects[guid] = obj;
             },
-
+           
             //Used to create multiple objects of the same type passing a set of creation parameters coherent 
             //with object we need to create 
             //This allows a single JSInteropt invocation for multiple objects creation with a consistent gain 

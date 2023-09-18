@@ -12,9 +12,7 @@ namespace ServerSideDemo.Pages
     {
         private GoogleMap _map1;
         private MapOptions _mapOptions;
-        private readonly Stack<Marker> _markers = new Stack<Marker>();
         private LatLngBounds _bounds;
-        private MarkerClustering _markerClustering;
         public int ZIndex { get; set; } = 0;
 
         [Inject]
@@ -35,7 +33,13 @@ namespace ServerSideDemo.Pages
                 MapId = "3a3b33f0edd6ed2a"
             };
         }
-
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                _bounds = await LatLngBounds.CreateAsync(_map1.JsRuntime);
+            }
+        }
         private async Task AddMarker()
         {
             var mapCenter = await _map1.InteropObject.GetCenter();
@@ -56,7 +60,7 @@ namespace ServerSideDemo.Pages
                 //Icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
             });
 
-            _markers.Push(marker);
+         
 
             //return;
             await _bounds.Extend(mapCenter);
@@ -70,7 +74,7 @@ namespace ServerSideDemo.Pages
                 i => Console.WriteLine(i.Url),
                 _ => { });
 
-            _markers.Push(marker);
+           
 
             await marker.AddListener<MouseEvent>("click", async e =>
             {
