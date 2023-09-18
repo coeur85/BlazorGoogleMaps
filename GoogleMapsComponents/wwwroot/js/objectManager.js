@@ -868,3 +868,13 @@
         }
     };
 }();
+
+async function CreateDiv(innerHTML) {
+    const content = document.createElement("div");
+    content.innerHTML = innerHTML;
+    return content;
+}
+
+const pinBackground = new PinElement({
+    background: "#FBBC04",
+});

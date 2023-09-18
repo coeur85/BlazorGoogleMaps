@@ -10,7 +10,7 @@ namespace GoogleMapsComponents.Maps
     public class AdvancedMarker : ListableEntityBase<MarkerOptions>
     {
 
-        public static async Task<Marker> CreateAsync(IJSRuntime jsRuntime, MarkerOptions? opts = null)
+        public static async Task<Marker> CreateAsync(IJSRuntime jsRuntime, AdvancedMarkerOptions? opts = null)
         {
             var jsObjectRef = await JsObjectRef.CreateAsync(jsRuntime, "google.maps.marker.AdvancedMarkerElement", opts);
             var obj = new Marker(jsObjectRef);

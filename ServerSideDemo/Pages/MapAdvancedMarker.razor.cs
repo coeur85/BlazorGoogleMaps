@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace ServerSideDemo.Pages
 {
@@ -45,22 +46,16 @@ namespace ServerSideDemo.Pages
             var mapCenter = await _map1.InteropObject.GetCenter();
             ZIndex++;
 
-            var marker = await AdvancedMarker.CreateAsync(_map1.JsRuntime, new MarkerOptions()
+            var marker = await AdvancedMarker.CreateAsync(_map1.JsRuntime, new AdvancedMarkerOptions()
             {
                 Position = mapCenter,
                 Map = _map1.InteropObject,
-                //Label = $"Test {markers.Count}",
+                Title = "test advanced marker tilte",
                 ZIndex = ZIndex,
-                //CollisionBehavior = CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY,//2021-07 supported only in beta google maps version
-                //Animation = Animation.Bounce
-                //Icon = new Icon()
-                //{
-                //    Url = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-                //}
-                //Icon = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-            });
+                Content = "await CreateDiv(innerHTML)"//"pinBackground.element"
+            }); ;
 
-         
+
 
             //return;
             await _bounds.Extend(mapCenter);
@@ -74,7 +69,7 @@ namespace ServerSideDemo.Pages
                 i => Console.WriteLine(i.Url),
                 _ => { });
 
-           
+
 
             await marker.AddListener<MouseEvent>("click", async e =>
             {
@@ -88,6 +83,38 @@ namespace ServerSideDemo.Pages
 
                 await e.Stop();
             });
+        }
+
+        private string BuilInfoWindow()
+        {
+            string html = @"<div>
+                <div class='icon'>
+                    <i aria-hidden='true' class='fa fa-icon fa-home' title='home'></i>
+                    <span class='fa-sr-only'>home</span>
+                </div>
+                <div class='details'>
+                    <div class='price'>1000$</div>
+                    <div class='address'>215 Emily St, MountainView, CA</div>
+                    <div class='features'>
+                    <div>
+                        <i aria-hidden='true' class='fa fa-bed fa-lg bed' title='bedroom'></i>
+                        <span class='fa-sr-only'>bedroom</span>
+                        <span>5</span>
+                    </div>
+                    <div>
+                        <i aria-hidden='true' class='fa fa-bath fa-lg bath' title='bathroom'></i>
+                        <span class='fa-sr-only'>bathroom</span>
+                        <span>4.5</span>
+                    </div>
+                    <div>
+                        <i aria-hidden='true' class='fa fa-ruler fa-lg size' title='size'></i>
+                        <span class='fa-sr-only'>size</span>
+                        <span>300 ft<sup>2</sup></span>
+                    </div>
+                    </div>
+                </div>
+            </div>";
+            return html;
         }
     }
 }
